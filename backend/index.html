@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Perro Perdido</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Formulario de Reporte de Perro Perdido</h2>
+       
+ 
+        <form action="#" method="post" enctype="multipart/form-data">
+            
+            <div class="form-grid">
+                <!-- Columna Izquierda -->
+                <div class="form-column">
+                    <div class="form-group">
+                        <label for="nombreInformante">Nombre del informante (Usted):</label>
+                        <input type="text" id="nombreInformante" name="nombreInformante" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo electrónico:</label>
+                        <input type="email" id="correo" name="correo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombrePerro">Nombre del perro:</label>
+                        <input type="text" id="nombrePerro" name="nombrePerro">
+                    </div>
+                    <div class="form-group">
+                        <label for="raza">Raza (si se conoce):</label>
+                        <input type="text" id="raza" name="raza">
+                    </div>
+                </div>
+
+                <!-- Columna Derecha -->
+                <div class="form-column">
+                    <div class="form-group">
+                        <label>Tamaño:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="pequeno" name="tamano" value="Pequeño" checked>
+                            <label for="pequeno">Pequeño</label>
+                            <input type="radio" id="mediano" name="tamano" value="Mediano">
+                            <label for="mediano">Mediano</label>
+                            <input type="radio" id="grande" name="tamano" value="Grande">
+                            <label for="grande">Grande</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>¿Lleva collar?</label>
+                        <div class="radio-group">
+                            <input type="radio" id="collarSi" name="collar" value="Sí">
+                            <label for="collarSi">Sí</label>
+                            <input type="radio" id="collarNo" name="collar" value="No" checked>
+                            <label for="collarNo">No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaExtravio">Fecha de extravío:</label>
+                        <input type="date" id="fechaExtravio" name="fechaExtravio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lugar">Lugar donde se perdió (zona, distrito, ciudad):</label>
+                        <input type="text" id="lugar" name="lugar">
+                    </div>
+                </div>
+
+                <!-- Fila de Ancho Completo para Descripción -->
+                <div class="form-group full-width">
+                    <label for="descripcion">Descripción del animal:</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" placeholder="Ej: Es muy amigable, tiene una mancha blanca en el pecho, responde al nombre de..."></textarea>
+                </div>
+                
+                <!-- Fila de Ancho Completo para Foto -->
+                <div class="form-group full-width">
+                    <label>Foto del perro (opcional):</label>
+                    <div class="file-input-wrapper">
+                        <label for="foto" class="file-label">Seleccionar archivo</label>
+                        <input type="file" id="foto" name="foto" onchange="document.getElementById('file-name-display').textContent = this.files[0] ? this.files[0].name : 'Sin archivos seleccionados';">
+                        <span id="file-name-display" class="file-name">Sin archivos seleccionados</span>
+                    </div>
+                </div>
+
+                <!-- Botón de Envío -->
+                <div class="submit-wrapper">
+                    <input type="submit" value="Enviar Reporte">
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

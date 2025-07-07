@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # 1. Servicio de Base de Datos PostgreSQL
+  db:
+    image: postgres:14-alpine
+    container_name: mascotas_db_pg
+    restart: always
+    environment:
+      # Variables de entorno para configurar PostgreSQL
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: mascotas_db
+    volumes:
+      # Volumen para persistencia de datos de PostgreSQL
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - app-net # Conecta este servicio a nuestra red dedicada
+
+  # 2. Servicio de pgAdmin (Alternativa a phpMyAdmin para PostgreSQL)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_mascotas
+    restart: always
+    ports:
+      - "5050:80" # Exponemos pgAdmin en el puerto 5050 de nuestra máquina
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    networks:
+      - app-net
+
+  # 3. Servicio del Backend (Node.js)
+  backend:
+    # Se construye la imagen usando el Dockerfile de la carpeta 'backend'
+    build:
+      context: ./backend
+    container_name: mascotas_backend
+    restart: on-failure
+    ports:
+      - "3000:3000" # Expone el puerto 3000 de nuestra aplicación Node.js
+    depends_on:
+      - db # Depende del servicio de la base de datos
+    environment:
+      # Variables de entorno que app.js usará para conectarse a la base de datos
+      DB_HOST: db
+      DB_USER: admin
+      DB_PASSWORD: password
+      DB_NAME: mascotas_db
+    command: >
+      sh -c "apk add --no-cache netcat-openbsd && 
+             until nc -z db 5432; do echo 'Esperando a la base de datos PostgreSQL...'; sleep 2; done &&
+             echo 'Base de datos lista.' &&
+             npm install &&
+             npm run start"
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    networks:
+      - app-net
+
+volumes:
+  pg_data:
+
+networks:
+  app-net:
+    driver: bridge
